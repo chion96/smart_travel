@@ -3,6 +3,9 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import App from './modules/App/App';
 
+import PostListPage from './modules/Post/pages/PostListPage/PostListPage';
+import Index from './modules/SmartTravel/pages/Index/Index';
+
 // require.ensure polyfill for node
 if (typeof require.ensure !== 'function') {
   require.ensure = function requireModule(deps, callback) {
@@ -18,13 +21,22 @@ if (process.env.NODE_ENV !== 'production') {
   // Require async routes only in development for react-hot-reloader to work.
   require('./modules/Post/pages/PostListPage/PostListPage');
   require('./modules/Post/pages/PostDetailPage/PostDetailPage');
+  require('./modules/SmartTravel/pages/Index/Index');
 }
 
 // react-router setup with code-splitting
 // More info: http://blog.mxstbr.com/2016/01/react-apps-with-pages/
 export default (
   <Route path="/" component={App}>
-    <IndexRoute
+    <IndexRoute 
+      getComponent={(nextState, cb) => {
+        require.ensure([], require => {
+          cb(null, require('./modules/SmartTravel/pages/Index/Index').default);
+        });
+      }}
+    />
+    <Route
+      path="/posts"
       getComponent={(nextState, cb) => {
         require.ensure([], require => {
           cb(null, require('./modules/Post/pages/PostListPage/PostListPage').default);
