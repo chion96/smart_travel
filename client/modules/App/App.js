@@ -9,6 +9,7 @@ import styles from './App.css';
 import Helmet from 'react-helmet';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import Button from '@material-ui/core/Button';
 
 // Import Actions
 import { toggleAddPost } from './AppActions';
@@ -61,6 +62,9 @@ export class App extends Component {
           />
           <div className={styles.container}>
             {this.props.children}
+            <Button variant="contained" color="primary">
+              Hello World
+            </Button>
           </div>
           <Footer />
         </div>
